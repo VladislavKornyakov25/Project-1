@@ -2,23 +2,10 @@
 const multiply20 = (price) => price * 20;    
 const divide100 = (price) => price / 100;        
 const normalizePrice = (price) => price.toFixed(2);
-let a = 1;
-
-let aa = function add1(a) {
-    return a + 1;
-};
-let  bb = function addFirst(a) {
-    return a;
-};
     
 
-const compose = (a,b) => (c) => {
-    const functionsArray = [];
-    functionsArray.push(a,b);    
+const compose = (...fns) => (x) =>
+    fns.reduceRight((res, fn) => fn(res), x);
 
-    let result = functionsArray.reduceRight(function(previos, current) {
-        return current(previos); 
-    }, c);
-    return result;   
-};
+const composeWithArgs = (...fns) => fns.reduceRight((f, g) => (...args) => g(f(...args)));
 console.log(compose(aa(a), bb(a)));
