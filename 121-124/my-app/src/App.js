@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import {Component}  from 'react';
+import {Component, StrictMode}  from 'react';
 import './App.css';
 
 const Header = () => {
@@ -53,7 +53,9 @@ function App() {
           Learn React
         </a>
       </header> */}
-		<Header/>
+	  	<StrictMode>
+			<Header/>
+		</StrictMode>		
 		<Field/>
 		<Btn/>
     </div>
