@@ -1,66 +1,27 @@
-import logo from './logo.svg';
 import {Component, StrictMode}  from 'react';
 import './App.css';
 
-const Header = () => {
-	return <h2>Hello World!!!</h2>
-}
-
-// const Field = () => {
-// 	const holder = 'Enter here';
-// 	const styledField = {
-// 		width: '300px'
-// 	};
-// 	return <input 
-// 			placeholder={holder} 
-// 			type="text" 
-// 			style={styledField}/>
-// } 
-
-class Field extends Component {
-	render() {
-		const holder = 'Enter here';
-		const styledField = {
-			width: '300px'
-		};
-		return <input 
-				placeholder={holder} 
-				type="text" 
-				style={styledField}/>
-	}
-}
-
-function Btn() {
-	const text = 'Log In';
-	const logged = true;
-	return <button>{logged ? 'Enter' : text}</button>
+function WhoAmI({name, surname, link}) { // function WhoAmI(props) - old version
+	return (
+		<div>
+			<h1>My name is {name}, surname - {surname}</h1>
+			<a href={link}>My Profile</a>
+		</div>
+	);
 }
 
 function App() {
   return (
-    <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-	  	<StrictMode>
-			<Header/>
-		</StrictMode>		
-		<Field/>
-		<Btn/>
+    <div className="App">      
+	  	<WhoAmI 
+			name="John" 
+			surname="Smith"
+			link="facebook.com"/>	
+		<WhoAmI 
+			name="Alex" 
+			surname="Ivanovich"
+			link="facebook.com"/>
     </div>
   );
 }
-
-export {Header};
 export default App;
