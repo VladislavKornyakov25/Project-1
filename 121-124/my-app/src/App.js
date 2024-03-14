@@ -1,5 +1,27 @@
-import {Component, StrictMode}  from 'react';
+import {Component}  from 'react';
+import styled from 'styled-components';
+
 import './App.css';
+
+const EmpItem = styled.div`
+	padding: 20px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 10px rgba(0,0,0, .2);
+
+`;
+
+const Header = styled.h2`
+	font-size: 22px;
+`;
+
+const Button = styled.button`
+	display: block;
+	padding: 5px 15px;
+	background-color: gold;
+	border: 1px solid rgba(0,0,0, .2);
+	box-shadow: 5px 5px 10px rgba(0,0,0, .2);
+`;
 
 class WhoAmI extends Component { 
 	constructor (props) {
@@ -29,9 +51,9 @@ class WhoAmI extends Component {
 		const {name, surname, link} = this.props;
 		const {years, position, text} = this.state;
 		return (
-			<div>
-				<button onClick={this.nextYear}>{text}</button>
-				<h1>My name is {name}, surname - {surname}, age - {years}, position - {position}</h1>
+			<EmpItem>			
+				<Button onClick={this.nextYear}>{text}</Button>
+				<Header>My name is {name}, surname - {surname}, age - {years}, position - {position}</Header>
 				<a href={link}>My Profile</a>
 				<form>
 					<span>
@@ -39,7 +61,7 @@ class WhoAmI extends Component {
 					</span>
 					<input type="text" onChange={(event) => this.commitInputChanges(event, 'some color')}/>
 				</form>
-			</div>
+			</EmpItem>
 		);
 	}
 	
@@ -54,10 +76,14 @@ class WhoAmI extends Component {
 // 		</div>
 // 	);
 // }
+const Wrapper = styled.div`
+	width: 600px;
+	margin: 80px auto 0px auto;	
+`;
 
 function App() {
   return (
-    <div className="App">      
+    <Wrapper>      
 	  	<WhoAmI 
 			name="John" 
 			surname="Smith"
@@ -66,7 +92,7 @@ function App() {
 			name="Alex" 
 			surname="Ivanovich"
 			link="facebook.com"/>
-    </div>
+    </Wrapper>
   );
 }
 export default App;
