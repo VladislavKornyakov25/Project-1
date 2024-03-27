@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 const App = (props) => {
-  // console.log(props);
+  
   	const [counter, setCounter] = useState(props.counter);
 	const [data, setData] = useState();
 	
