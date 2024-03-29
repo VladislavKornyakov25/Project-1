@@ -1,30 +1,47 @@
-import {useRef, useState, useEffect} from 'react';
+import {useState} from 'react';
 import {Container} from 'react-bootstrap';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-const Form = () => {
-	const [text, setText] = useState('');
-	
-    const myRef = useRef(1);  
+function useInputWithValidate(initialValue) {
+    const [value, setValue] = useState(initialValue);
 
-	useEffect(() => {
-		myRef.current++;
-		console.log(myRef.current);
-	});
+    const onChange = event => {
+        setValue(event.target.value);
+    }
+
+    const validateInput = () => {
+        return value.search(/\d/) >= 0;         
+    }
+
+    return {value, onChange, validateInput}
+}
+
+const Form = () => {
+
+    const input = useInputWithValidate('');
+    const textArea = useInputWithValidate('');
+
+    const color = input.validateInput() ? 'text-danger' : null;
 
     return (
         <Container>
             <form className="w-50 border mt-5 p-3 m-auto">
                 <div className="mb-3">
+                    <input 
+                        value={`${input.value} / ${textArea.value}`} 
+                        type="text" 
+                        className="form-control"
+                        readOnly/>
                     <label 
 						htmlFor="exampleFormControlInput1" 
-						className="form-label">Email address</label>
+						className="form-label mt-30">Email address</label>
                     <input 
-						onChange={(event) => setText(event.target.value)} 
+						onChange={input.onChange}
+                        value={input.value} 
 						type="email" 
-						className="form-control" 
+						className={`form-control ${color}`}
 						id="exampleFormControlInput1" 
 						placeholder="name@example.com"/>
                 </div>
@@ -34,7 +51,9 @@ const Form = () => {
 						className="form-label">Example textarea</label>
                     <textarea				 
 						className="form-control" 
-						id="exampleFormControlTextarea1" 
+						id="exampleFormControlTextarea1"
+                        onChange={textArea.onChange}
+                        value={textArea.value}
 						rows="3"></textarea>
                 </div>
             </form>
