@@ -1,69 +1,99 @@
-import {useState} from 'react';
+import {Component, useState, createContext, useContext} from 'react';
 import {Container} from 'react-bootstrap';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function useInputWithValidate(initialValue) {
-    const [value, setValue] = useState(initialValue);
+const dataContext = createContext({
+    mail: "name@example.com",
+    text: 'some text'
+});
 
-    const onChange = event => {
-        setValue(event.target.value);
-    }
-
-    const validateInput = () => {
-        return value.search(/\d/) >= 0;         
-    }
-
-    return {value, onChange, validateInput}
-}
-
-const Form = () => {
-
-    const input = useInputWithValidate('');
-    const textArea = useInputWithValidate('');
-
-    const color = input.validateInput() ? 'text-danger' : null;
+const {Provider, Consumer} = dataContext;
+const Form = (props) => {
 
     return (
         <Container>
             <form className="w-50 border mt-5 p-3 m-auto">
                 <div className="mb-3">
-                    <input 
-                        value={`${input.value} / ${textArea.value}`} 
-                        type="text" 
-                        className="form-control"
-                        readOnly/>
                     <label 
-						htmlFor="exampleFormControlInput1" 
-						className="form-label mt-30">Email address</label>
-                    <input 
-						onChange={input.onChange}
-                        value={input.value} 
-						type="email" 
-						className={`form-control ${color}`}
-						id="exampleFormControlInput1" 
-						placeholder="name@example.com"/>
+                        htmlFor="exampleFormControlInput1" 
+                        className="form-label mt-3">Email address</label>
+                    <InputComponent/>
+                    
                 </div>
                 <div className="mb-3">
                     <label 
-						htmlFor="exampleFormControlTextarea1" 
-						className="form-label">Example textarea</label>
-                    <textarea				 
-						className="form-control" 
-						id="exampleFormControlTextarea1"
-                        onChange={textArea.onChange}
-                        value={textArea.value}
-						rows="3"></textarea>
+                        htmlFor="exampleFormControlTextarea1" 
+                        className="form-label">Example textarea</label>
+                    <textarea 
+                        value={props.text} 
+                        className="form-control" 
+                        id="exampleFormControlTextarea1" 
+                        rows="3"></textarea>
                 </div>
             </form>
         </Container>
     )
 }
 
-function App() {
+const InputComponent = () => {
+
+    const context = useContext(dataContext);
+
     return (
-        <Form/>
+        <input 
+            value={context.mail} 
+            type="email" 
+            className='form-control'
+            placeholder='name@example.com'/>
+    )
+}
+// class InputComponent extends Component {
+
+//     static contextType = dataContext;
+
+//     render() {        
+//         return (
+//             // <Consumer>
+//             //     {
+//             //         value => {
+//             //             return (
+//             //                 <input 
+//             //                     value={value.mail} 
+//             //                     type="email" 
+//             //                     className='form-control'
+//             //                     placeholder='name@example.com'/>
+//             //             )
+//             //         } 
+//             //     }
+//             // </Consumer> 
+//             <input 
+//                 value={this.context.mail} 
+//                 type="email" 
+//                 className='form-control'
+//                 placeholder='name@example.com'/>           
+//         )
+//     }
+// }
+
+// // InputComponent.contextType = dataContext;
+
+function App() {
+    const [data, setData] = useState({
+        mail: "name@example.com",
+        text: 'some text'
+    });
+
+    return (
+        <Provider value={data}>
+            <Form text={data.text}/>
+            <button 
+                onClick={() => setData({
+                    mail: "second@example.com",
+                    text: 'another text'
+                })}>
+                Click me
+            </button>
+        </Provider>
     );
 }
 
